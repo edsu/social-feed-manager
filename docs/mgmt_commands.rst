@@ -197,35 +197,24 @@ equivalent to logical 'OR' & 'AND' respectively.Please see the TwitterAPI for mo
 
 People - It tracks the twitter usernames to stream, can contain a comma-separated list of screen names.
 
-Location - Geographic bounding boxes to track.Location should have the list of coordinates,
-it should not include any brackets.
+Location - Geographic bounding boxes to track.It accepts only one set of geographic bounding box, without 
+brackets and special characters.
 
 Sample twitterfilter rule:
 
 .. image:: twitter_filter_rule_sample.png
 
-To run manually and view streaming output to the console:
-
+*filterstream* takes the parameter twitterfilterid. To run manually and view streaming output to the console:
+   
 .. code-block:: none
-
-     ./manage.py filterstream
-
-To run manually and direct output to files in DATA_DIR:
-
-.. code-block:: none
-
-     ./manage.py filterstream –save
-
-*filterstream* can also take a parameter corresponding to the number of
-an individual TwitterFilter, e.g.
+    
+         ./manage.py filterstream [twitterfilterid]
+            
+To run manually and direct output to files in DATA_DIR, say for twitterfilterid 4:
 
 .. code-block:: none
 
      ./manage.py filterstream 4 –save
-
-This will run *filterstream* only for the TwitterFilter with an id of 4.
-If no TwitterFilter number is given, filterstream will run for all
-active TwitterFilters.
 
 Information on the Twitter API filter streaming resource:
 https://dev.twitter.com/docs/api/1.1/post/statuses/filter
