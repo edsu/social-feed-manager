@@ -82,12 +82,11 @@ class Command(BaseCommand):
             if people != []:
                 for users in people:
                     try:
-                        print users
                         ppl = TwitterUser.objects.get(name__iexact=users)
                         uid.append(ppl.uid)
                     except Exception as e:
                         print e
-            #locations
+            #locations to track
             loc = []
             if twitter_filter.locations != '':
                 for l in twitter_filter.locations.split(','):
