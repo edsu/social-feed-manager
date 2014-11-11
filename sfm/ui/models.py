@@ -353,13 +353,14 @@ for which tweets, retweets, and mentions will be captured. See the \
 onclick="window.open(this.href); return false;">follow parameter \
 documentation</a> for more information.""")
     words = m.TextField(blank=True,
-                        help_text="""Space-separated keywords to track. See \
+                        help_text="""List of keywords to track, words \
+separated with space & comma are tracked as 'AND' & 'OR' respectively.See \
 <a href="https://dev.twitter.com/docs/streaming-apis/parameters#track" \
 onclick="window.open(this.href); return false;">the track parameter \
 documentation</a> for more information.""")
     locations = m.TextField(blank=True,
-                            help_text="""
-Specifies a set of bounding boxes to track. See the \
+                            help_text="""Specifies a set of bounding \
+boxes to track.Specify only the coordinates,no special characters. See the \
 <a href="https://dev.twitter.com/docs/streaming-apis/parameters#locations" \
 onclick="window.open(this.href); return false;">locations parameter \
 documentation</a> for more information.""")
