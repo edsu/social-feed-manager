@@ -192,11 +192,17 @@ settings variables to be configured in local_settings.py .
 
 Each TwitterFilter may contain the following predicates:
 
-Words - Keywords to track
+Words - It tracks comma-separated and space-separated list of words performing a fetch for tweets 
+equivalent to logical 'OR' & 'AND' respectively.Please see the TwitterAPI for more info on track.
 
-People - Twitter accounts to track
+People - It tracks the twitter usernames to stream, can contain a comma-separated list of screen names.
 
-Location - Geographic bonuding boxes to track
+Location - Geographic bounding boxes to track.Location should have the list of coordinates,
+it should not include any brackets.
+
+Sample twitterfilter rule:
+
+.. image:: twitter_filter_rule_sample.png
 
 To run manually and view streaming output to the console:
 
@@ -211,7 +217,7 @@ To run manually and direct output to files in DATA_DIR:
      ./manage.py filterstream –save
 
 *filterstream* can also take a parameter corresponding to the number of
-an individidual TwitterFilter, e.g.
+an individual TwitterFilter, e.g.
 
 .. code-block:: none
 
