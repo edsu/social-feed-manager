@@ -345,7 +345,7 @@ class TwitterFilter(m.Model):
                        help_text="Name of this TwitterFilter")
     user = m.ForeignKey(User,
                         help_text="Account to use for authentication")
-    uid = m.TextField(blank=True, default="")
+    uids = m.TextField(blank=True, default="")
     is_active = m.BooleanField(default=False)
     people = m.TextField(blank=True,
                          help_text="""Space-separated list of user IDs \
@@ -390,19 +390,22 @@ documentation</a> for more information.""")
                                      Please select a different user or mark
                                      this filter as inactive.''' %
                                   (conflicting_tfs[0].id, self.user.username))
-        # update the people in twitterfilter with their respective uid
-        uid = []
-        ppl = []
-        try:
-            for names in self.people.split(','):
-                ppl.append(names.lstrip().lstrip("@").rstrip())
-            api = authenticated_api(username=settings.TWITTER_DEFAULT_USERNAME)
-            people_uid = api.lookup_users(screen_names=ppl)
-            for names in range(0, len(people_uid)):
-                uid.append(people_uid[names]['id_str'])
-            self.uid = uid
-        except Exception as e:
-            raise ValidationError('''Please clear the error %s''' % e)
+        # update people in twitterfilter with their respective uids,
+        #stores as a list of uids
+        if self.people != '':
+            uids = []
+            ppl = []
+            try:
+                for person in self.people.split(','):
+                    ppl.append(person.lstrip().lstrip("@").rstrip())
+                api = authenticated_api(username=
+                                        settings.TWITTER_DEFAULT_USERNAME)
+                people_uids = api.lookup_users(screen_names=ppl)
+                for person in range(0, len(people_uids)):
+                    uids.append(people_uids[person]['id'])
+                self.uids = uids
+            except Exception as e:
+                raise ValidationError("Please clear the error %s" % e)
 
 
 @receiver(post_save, sender=TwitterFilter)
