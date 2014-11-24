@@ -77,21 +77,15 @@ class Command(BaseCommand):
             words = []
             words.append(twitter_filter.words)
             #people to track
-            uid = []
             people = twitter_filter.people.strip().split(' ')
-            if people != []:
-                for users in people:
-                    try:
-                        ppl = TwitterUser.objects.get(name__iexact=users)
-                        uid.append(ppl.uid)
-                    except Exception as e:
-                        print e
+            uid = []
             #locations to track
             loc = []
             if twitter_filter.locations != '':
                 for l in twitter_filter.locations.split(','):
                     loc.append(float(l))
             if options.get('verbose', False):
+
                 print 'track:', words
                 print 'follow:', people
                 print 'locations:', loc
