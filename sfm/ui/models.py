@@ -345,6 +345,7 @@ class TwitterFilter(m.Model):
                        help_text="Name of this TwitterFilter")
     user = m.ForeignKey(User,
                         help_text="Account to use for authentication")
+    uid = m.TextField(blank=True, default="")
     is_active = m.BooleanField(default=False)
     people = m.TextField(blank=True,
                          help_text="""Space-separated list of user IDs \
@@ -353,14 +354,13 @@ for which tweets, retweets, and mentions will be captured. See the \
 onclick="window.open(this.href); return false;">follow parameter \
 documentation</a> for more information.""")
     words = m.TextField(blank=True,
-                        help_text="""List of keywords to track, words \
-separated with space & comma are tracked as 'AND' & 'OR' respectively.See \
+                        help_text="""Space-separated keywords to track. See \
 <a href="https://dev.twitter.com/docs/streaming-apis/parameters#track" \
 onclick="window.open(this.href); return false;">the track parameter \
 documentation</a> for more information.""")
     locations = m.TextField(blank=True,
-                            help_text="""Specifies a set of bounding \
-boxes to track.Specify only the coordinates,no special characters. See the \
+                            help_text="""
+Specifies a set of bounding boxes to track. See the \
 <a href="https://dev.twitter.com/docs/streaming-apis/parameters#locations" \
 onclick="window.open(this.href); return false;">locations parameter \
 documentation</a> for more information.""")
@@ -390,6 +390,19 @@ documentation</a> for more information.""")
                                      Please select a different user or mark
                                      this filter as inactive.''' %
                                   (conflicting_tfs[0].id, self.user.username))
+        # update the people in twitterfilter with their respective uid
+        uid = []
+        ppl = []
+        try:
+            for names in self.people.split(','):
+                ppl.append(names.lstrip().lstrip("@").rstrip())
+            api = authenticated_api(username=settings.TWITTER_DEFAULT_USERNAME)
+            people_uid = api.lookup_users(screen_names=ppl)
+            for names in range(0, len(people_uid)):
+                uid.append(people_uid[names]['id_str'])
+            self.uid = uid
+        except Exception as e:
+            raise ValidationError('''Please clear the error %s''' % e)
 
 
 @receiver(post_save, sender=TwitterFilter)
