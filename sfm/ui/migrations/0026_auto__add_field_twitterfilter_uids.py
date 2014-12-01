@@ -3,6 +3,9 @@ from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
+from ui.models import authenticated_api
+from django.conf import settings
+
 
 
 class Migration(SchemaMigration):
@@ -12,12 +15,32 @@ class Migration(SchemaMigration):
         db.add_column(u'ui_twitterfilter', 'uids',
                       self.gf('django.db.models.fields.TextField')(default='', blank=True),
                       keep_default=False)
-
+        for ids in orm.TwitterFilter.objects.all():
+            try:
+                filter_ids = orm.TwitterFilter.objects.get(id=ids.id)
+                repl_ppl = filter_ids.people.replace(" ",",")
+                filter_ids.people = repl_ppl
+                repl_wrd = filter_ids.words.replace(" ",",")
+                filter_ids.words = repl_wrd
+                uids = []
+                q = []
+                if filter_ids.people != '':
+                    ppl = filter_ids.people.split(",")
+                    for items in ppl:
+                        q.append(items.lstrip().lstrip("@").rstrip())
+                    api = authenticated_api(username=
+                                            settings.TWITTER_DEFAULT_USERNAME)
+                    people_uids = api.lookup_users(screen_names=q)
+                    for person in range(0, len(people_uids)):
+                        uids.append(people_uids[person]['id'])
+                    filter_ids.uids = uids
+                filter_ids.save()
+            except Exception as e:
+                print 'id:', filter_ids.id, e
 
     def backwards(self, orm):
         # Deleting field 'TwitterFilter.uids'
         db.delete_column(u'ui_twitterfilter', 'uids')
-
 
     models = {
         u'auth.group': {

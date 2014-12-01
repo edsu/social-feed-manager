@@ -404,8 +404,9 @@ documentation</a> for more information.""")
                 for person in range(0, len(people_uids)):
                     uids.append(people_uids[person]['id'])
                 self.uids = uids
-            except Exception as e:
-                raise ValidationError("Please clear the error %s" % e)
+            except:
+                raise ValidationError("Please use comma to separate the list"
+                                      "of screennames in people")
 
 
 @receiver(post_save, sender=TwitterFilter)
