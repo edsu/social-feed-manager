@@ -91,7 +91,7 @@ class Command(BaseCommand):
                     loc.append(float(l))
             if options.get('verbose', False):
                 print 'track:', words
-                print 'follow:', people, uids
+                print 'follow:', people
                 print 'locations:', loc
             try:
                 sa = twitter_filter.user.social_auth.all()[0]
