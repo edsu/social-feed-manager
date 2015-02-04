@@ -75,7 +75,7 @@ class RotatingFile(StreamListener):
 
     def _get_filename(self):
         return '%s/%s-%s%s' % (self.data_dir, self.filename_prefix,
-                               time.strftime('%Y-%m-%dT%H:%M:%SZ',
+                               time.strftime('%Y-%m-%dT%H-%M-%SZ',
                                              time.gmtime()),
                                '.gz' if self.compress else '')
 
@@ -392,7 +392,7 @@ documentation</a> for more information.""")
                                      this filter as inactive.''' %
                                   (conflicting_tfs[0].id, self.user.username))
         # update people in twitterfilter with their respective uids,
-        #stores as a list of uidsi
+        #stores as a list of uids
         if self.people != '':
             uids = []
             ppl = []
