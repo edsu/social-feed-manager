@@ -3,11 +3,7 @@ from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
-<<<<<<< HEAD
 from ui.models import authenticated_api, TwitterFilter
-=======
-from ui.models import authenticated_api
->>>>>>> 8c11d1f17ec52cee2590c2389a5c763bddf793d0
 from django.conf import settings
 
 
