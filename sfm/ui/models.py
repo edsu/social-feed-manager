@@ -392,7 +392,7 @@ documentation</a> for more information.""")
                                      this filter as inactive.''' %
                                   (conflicting_tfs[0].id, self.user.username))
         # update people in twitterfilter with their respective uids,
-        #stores as a list of uids
+        #stores as a list of uidsi
         if self.people != '':
             uids = []
             ppl = []
@@ -408,7 +408,6 @@ documentation</a> for more information.""")
             except:
                 raise ValidationError("Please use comma to separate the list"
                                       "of screennames in people")
-
 
 
 @receiver(post_save, sender=TwitterFilter)
