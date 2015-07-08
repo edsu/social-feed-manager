@@ -443,7 +443,7 @@ You will need to change several things in this file:
  - change references to ``YOUR-HOSTNAME.HERE`` to your public hostname
  - change the reference to ``/PATH/TO/YOUR/VENV`` to the full absolute
    path to your virtualenv (ending in ``ENV``) which you created above
- - change the reference to ``python/2.X`` to 2.7
+ - change the reference to ``python2.X`` to python2.7
 
 When you've made all those changes, save the file.
 
